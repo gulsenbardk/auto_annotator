@@ -1,7 +1,7 @@
 import argparse
 import os
 import numpy as np
-import open3d as o3d
+#import open3d as o3d
 
 from processV3 import *
 

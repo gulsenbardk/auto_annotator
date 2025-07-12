@@ -45,7 +45,7 @@ pip3 install -U git+https://github.com/NVIDIA/MinkowskiEngine --install-option="
 
 ## General algortihm flowchart: 
 ```bash
-python3 src/main.py --xodr_path "/mnt/data/bard_gu/xodr/2024-07-25_2129_OKULar_Schwarzer_Berg_ODR.xodr" --pcd_dir "/mnt/data/bard_gu/pcd/ScL/" --output_dir "/mnt/data/bard_gu/pcd/Datasets/SemanticKITTI/dataset/sequences/03"
+python3 src/main.py --xodr_path "/home/thesis/data/map.xodr" --pcd_dir "/home/thesis/data/" --output_dir "/home/thesis/data/"
 ```
 
 ![Code flowchart](img/algo.svg)

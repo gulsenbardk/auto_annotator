@@ -271,7 +271,7 @@ def getsingleXODR_asil(xodr_path, pcd_dir, output_dir):
             json.dump(metrics, f, indent=2)
 
         np.savetxt(
-            f'/mnt/data/bard_gu/pcd/Datasets/01/sentetik_{idx:05d}.txt',
+            f'/home/thesis/data/sentetik_{idx:05d}.txt',
             uniform_syn,
             fmt='%.6f %.6f %.6f %.6f'
         )
