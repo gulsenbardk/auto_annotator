@@ -105,8 +105,8 @@ SELECTED_LABELS = {
     9:  8,  # pole → 8
     10: 9  # trafficLight → 9
 }
-class SelectedPointDataset(Dataset):
-    def __init__(self, dataset, max_points=10000):
+class SelectedPointDataset(Dataset):       
+    def __init__(self, dataset, max_points=100000):
         self.dataset = dataset
         self.max_points = max_points
 

@@ -23,24 +23,29 @@ def pad_collate_fn(batch):
     return torch.stack(padded_points), torch.stack(padded_labels)
 
 
-def get_color_map_binary(preds):
+def get_color_map_match(labels, preds):
     colors = np.zeros((len(preds), 3))
-    colors[preds == 1] = [0.0, 1.0, 0.0]  
-    colors[preds == 0] = [0.7, 0.7, 0.7]  
+    labels_np = labels.cpu().numpy()
+    preds_np = preds.cpu().numpy()
+
+    for i in range(len(preds_np)):
+        if labels_np[i] == 0:
+            colors[i] = [0.7, 0.7, 0.7]  # Gray for no label
+        elif preds_np[i] == labels_np[i]:
+            colors[i] = [0.0, 1.0, 0.0]  # Green for correct prediction
+        else:
+            colors[i] = [1.0, 0.0, 0.0]  # Red for incorrect prediction
     return colors
 
 def visualize_prediction(points, labels, preds):
-
     points_np = points.cpu().numpy()
-    preds_np = preds.cpu().numpy()
-    colors = get_color_map_binary(preds_np)
+    colors = get_color_map_match(labels, preds)
 
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(points_np)
     pcd.colors = o3d.utility.Vector3dVector(colors)
 
     o3d.visualization.draw_geometries([pcd])
-
 
 
 def remove_ground_points(dataset, z_threshold=0.5):

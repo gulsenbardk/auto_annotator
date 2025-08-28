@@ -1,6 +1,28 @@
 from data import *
 
+def visualize_point_clouds(syn_points, syn_labels, est_points, est_labels)
+    all_labels = np.concatenate([syn_labels, est_labels])
+    unique_labels = np.unique(all_labels)
 
+    cmap = plt.get_cmap('tab20')  # up to 20 distinct colors, change if more classes
+    label_to_color = {label: cmap(i % 20)[:3] for i, label in enumerate(unique_labels)}
+
+    def create_o3d_pc(points, labels):
+        pcd = o3d.geometry.PointCloud()
+        pcd.points = o3d.utility.Vector3dVector(points)
+        colors = np.array([label_to_color[label] for label in labels])
+        pcd.colors = o3d.utility.Vector3dVector(colors)
+        return pcd
+    colors = np.array([label_to_color[label] for label in syn_labels])
+    colors = np.array([label_to_color[label] for label in est_labels])
+    syn_pcd.colors = o3d.utility.Vector3dVector(colors)
+    est_pcd.colors = o3d.utility.Vector3dVector(colors)
+    syn_pcd = create_o3d_pc(syn_points, syn_labels)
+    est_pcd = create_o3d_pc(est_points, est_labels)
+
+
+    o3d.io.write_point_cloud(filename, pcd)
+    o3d.visualization.draw_geometries([syn_pcd, est_pcd],window_name='Synthetic(left) and Estimated (right) Point Clouds', width=800, height=600)
 def las2array(file_path):
     las = laspy.read(file_path)
     points = np.column_stack((
@@ -250,7 +272,19 @@ def getsingleXODR_asil(xodr_path, pcd_dir, output_dir):
         #####################################################################
         
         uniform_pcd, uniform_lbl, uniform_syn, uniform_rmse, uniform_fitness, uniform_class_rmse = icp_syn(original_pcd, uniform_points, uniform_labels, 2, 30, 0.2, 30, "point")
-        
+        import ipdb 
+        ipdb.set_trace()
+        syn_points = uniform_points 
+        syn_labels = uniform_labels
+        est_points = uniform_pcd 
+        est_labels = uniform_lbl
+        , syn_labels, est_points, est_labels
+        syn_xyz = uniform_syn[:, :3]
+        syn_labels = uniform_lbl
+
+        est_xyz = uniform_pcd
+        est_labels = uniform_lbl
+        visualize_point_clouds(uniform_points, uniform_labels, uniform_pcd, uniform_lbl)
         print("This code processing ICP resulted point cloud saving - 02")
         # ✅ Save for PointNet++
         torch.save({
